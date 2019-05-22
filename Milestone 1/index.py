@@ -17,7 +17,10 @@ class Index:
         self.tf_idf={}
             
     def loop_urls(self):
+        count = 0
         for url in self.url_file_map:
+            if count > 10:
+                break
             addr = self.url_file_map[url].split("/")
             dir = addr[0]
             file = addr[1]
@@ -28,7 +31,7 @@ class Index:
             text = parser.get_data()
             self.tf[url]={}
             word_set = set()
-            for word in text.split(" "):
+            for word in text.lower().split(" "):
                 if not word in self.tf[url]:
                     self.tf[url][word] = 1
                 else:
@@ -40,10 +43,13 @@ class Index:
                         self.df[word]+=1
                     word_set.add(word)
             f.close()
+            count+=1
         
         for doc in self.tf:
             for term in self.tf[doc]:
-                self.tf_idf[term]={doc:(1+math.log(self.tf[doc][term],10)) * math.log(len(self.df)/self.df[term])}
+                if not term in self.tf_idf.keys():
+                    self.tf_idf[term]={}
+                self.tf_idf[term][doc]=(1+math.log(self.tf[doc][term],10)) * math.log(len(self.df)/self.df[term])
 
         with open('index.json', 'w') as outfile:
             json.dump(self.tf_idf, outfile)
