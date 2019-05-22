@@ -14,7 +14,7 @@ class Index:
             self.url_file_map[self.file_url_map[key]] = key
         self.tf={}
         self.df=dict()
-        self.tf_idf=dict()
+        self.tf_idf={}
             
     def loop_urls(self):
         for url in self.url_file_map:
@@ -43,4 +43,7 @@ class Index:
         
         for doc in self.tf:
             for term in self.tf[doc]:
-                self.tf_idf[(term,doc)]=(1+math.log(self.tf[doc][term],10)) * math.log(len(self.df)/self.df[term])
+                self.tf_idf[term]={doc:(1+math.log(self.tf[doc][term],10)) * math.log(len(self.df)/self.df[term])}
+
+        with open('index.json', 'w') as outfile:
+            json.dump(self.tf_idf, outfile)
