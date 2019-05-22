@@ -2,6 +2,7 @@ import json
 import os
 from HTMLparser import MyHTMLParser
 import math
+import re
 
 class Index:
     WEBPAGES_RAW_NAME = "WEBPAGES_RAW"
@@ -31,7 +32,9 @@ class Index:
             text = parser.get_data()
             self.tf[url]={}
             word_set = set()
-            for word in text.lower().split(" "):
+            words=re.split("[^a-z0-9]+",text.lower())
+            words=filter(None,words)
+            for word in words:
                 if not word in self.tf[url]:
                     self.tf[url][word] = 1
                 else:
@@ -52,4 +55,4 @@ class Index:
                 self.tf_idf[term][doc]=(1+math.log(self.tf[doc][term],10)) * math.log(len(self.df)/self.df[term])
 
         with open('index.json', 'w') as outfile:
-            json.dump(self.tf_idf, outfile)
+            json.dump(self.tf_idf, outfile, separators=('\n',': '))
