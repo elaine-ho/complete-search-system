@@ -55,4 +55,7 @@ class Index:
                 self.tf_idf[term][doc]=(1+math.log(self.tf[doc][term],10)) * math.log(len(self.df)/self.df[term])
 
         with open('index.json', 'w') as outfile:
-            json.dump(self.tf_idf, outfile, separators=('\n',': '))
+            for term in self.tf_idf:
+                json.dump({'term':term,'URLs':self.tf_idf[term]},outfile)
+                outfile.write('\n')
+            
