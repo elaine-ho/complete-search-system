@@ -7,9 +7,8 @@ class MyHTMLParser(HTMLParser): # From https://docs.python.org/3/library/html.pa
         super().__init__()
         self.reset()
         self.tag = None
-        self.handle = [False,None] # [0] reports if data will be handled [1] is the starting tag (if in self.tags)
+        self.is_in_body = False
         self.data = []
-        self.tags = ["title","h1","h2","h3","h4","h5","h6","p","table","li"]
         self.important_data = {
             "h1":set(),
             "h2": set(),
@@ -19,18 +18,16 @@ class MyHTMLParser(HTMLParser): # From https://docs.python.org/3/library/html.pa
 
     def handle_starttag(self, tag, attrs):
         self.tag=tag
-        if tag in self.tags:
-            self.handle[0]=True
-            self.handle[1]=tag
+        if tag == "body":
+            self.is_in_body=True
 
     def handle_endtag(self, tag):
         self.tag = None
-        if tag == self.handle[1]:
-            self.handle[0]=False
-            self.handle[1]=None
+        if tag == "body":
+            self.is_in_body=False
 
     def handle_data(self, d):
-        if self.handle[0]:
+        if self.is_in_body and self.tag!="script":
             self.data.append(d)
 
         words=re.split("[^a-z0-9]+",d.lower())
