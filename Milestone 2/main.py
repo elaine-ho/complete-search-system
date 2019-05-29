@@ -16,9 +16,6 @@ def search_and_show():
             break
         output.append(result)
         count+=1
-    m.destroy()
-    m.pack_forget()
-    m.grid_forget()
     scrollbar = Scrollbar(m)
     scrollbar.pack(side = RIGHT, fill = Y)
     mylist = Listbox(m, yscrollcommand = scrollbar.set)
@@ -37,7 +34,7 @@ if __name__ == "__main__":
     searcher = Searcher(database)
     
     m = tkinter.Tk()
-    Label(m, text='Enter a query:').grid(row=0)
+    Label(m, text='Enter a query:').pack(side=LEFT, fill=BOTH)
     query_box = Entry(m)
     submit_button = Button(m, text="Search", command=search_and_show)
     query_box.pack(side = LEFT, fill = BOTH)

@@ -9,8 +9,10 @@ if __name__ == "__main__":
     if not 'CS121Project3' in client.list_database_names():
         Index().loop_urls(client)
 
-    database = client["CS121Project3"]["ICSindex"]
-    searcher = Searcher(database)
+    db = client["CS121Project3"]
+    searcher = Searcher(db)
+
+    f = open("log.txt", "w")
 
     is_searching = True
     while is_searching:
@@ -20,12 +22,11 @@ if __name__ == "__main__":
 
         ranked_results = searcher.find(query)
 
-        count = 0
+
+        f.write("\nQuery: " + query)
         for result in ranked_results:
-            if count>20:
-                break
             print(result[0])
-            count+=1
+            f.write("\n\t" + result[0])
 
         continue_search = input("Do you want to continue searching? (Y/N): ")
         while continue_search.lower()!="y":
@@ -36,5 +37,5 @@ if __name__ == "__main__":
                 continue_search = input("Do you want to continue searching? (Y/N): ")
          
     
-    
+    f.close()
     
