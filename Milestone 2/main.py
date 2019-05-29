@@ -40,6 +40,6 @@ if __name__ == "__main__":
     Label(m, text='Enter a query:').grid(row=0)
     query_box = Entry(m)
     submit_button = Button(m, text="Search", command=search_and_show)
-    query_box.grid(row=0, column=1)
-    submit_button.grid(row=1, column=1)
+    query_box.pack(side = LEFT, fill = BOTH)
+    submit_button.pack(side = LEFT, fill = BOTH)
     m.mainloop()
