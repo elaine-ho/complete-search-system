@@ -38,4 +38,5 @@ if __name__ == "__main__":
     query_box = Entry(m)
     submit_button = Button(m, text="Search", command=search_and_show)
     query_box.grid(row=0, column=1)
+    submit_button.grid(row=1, column=1)
     m.mainloop()
