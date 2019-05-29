@@ -14,7 +14,7 @@ def search_and_show():
     for result in ranked_results:
         if count>20:
             break
-        output[count] = result[count]
+        output.append(result)
         count+=1
     m.destroy()
     m.pack_forget()
