@@ -13,7 +13,8 @@ class MyHTMLParser(HTMLParser): # From https://docs.python.org/3/library/html.pa
             "h1":set(),
             "h2": set(),
             "h3": set(),
-            "bold": set()
+            "b": set(),
+            "strong" : set()
         }
 
     def handle_starttag(self, tag, attrs):

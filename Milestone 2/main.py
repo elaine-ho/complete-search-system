@@ -1,9 +1,30 @@
-import os
+import tkinter
+from tkinter import *
 from index import Index
 from pymongo import MongoClient
 from searcher import Searcher
 
-
+def search_and_show():
+    query = query_box.get()
+    
+    ranked_results = searcher.find(query)
+    
+    count = 0
+    output = []
+    for result in ranked_results:
+        if count>20:
+            break
+        output[count] = result[count]
+        count+=1
+    scrollbar = Scrollbar(m)
+    scrollbar.pack(side = RIGHT, fill = Y)
+    mylist = Listbox(m, yscrollcommand = scrollbar.set)
+    for line in output:
+        mylist.insert(END, str(line))
+    mylist.pack( side = LEFT, fill = BOTH )
+    scrollbar.config(command = mylist.yview)
+    mainloop()
+    
 if __name__ == "__main__":
     client = MongoClient(port=27017)
     if not 'CS121Project3' in client.list_database_names():
@@ -11,30 +32,10 @@ if __name__ == "__main__":
 
     database = client["CS121Project3"]["ICSindex"]
     searcher = Searcher(database)
-
-    is_searching = True
-    while is_searching:
-        query = input("Enter a query: ")
-        while len(query)==0:
-            query = input("Enter a valid query: ")
-
-        ranked_results = searcher.find(query)
-
-        count = 0
-        for result in ranked_results:
-            if count>20:
-                break
-            print(result[0])
-            count+=1
-
-        continue_search = input("Do you want to continue searching? (Y/N): ")
-        while continue_search.lower()!="y":
-            if continue_search.lower()=="n":
-                is_searching=False
-                break
-            else:
-                continue_search = input("Do you want to continue searching? (Y/N): ")
-         
     
-    
-    
+    m = tkinter.Tk()
+    Label(m, text='Enter a query:').grid(row=0)
+    query_box = Entry(m)
+    submit_button = Button(m, text="Search", command=search_and_show)
+    query_box.grid(row=0, column=1)
+    m.mainloop()

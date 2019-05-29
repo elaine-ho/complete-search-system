@@ -68,7 +68,7 @@ class Index:
 
                 if term in important_tags[doc]["h1"]:
                     self.tf_idf[term][doc]+=3
-                elif term in important_tags[doc]["bold"]:
+                elif term in important_tags[doc]["b"] or term in important_tags[doc]["strong"]:
                     self.tf_idf[term][doc]+=2
                 elif term in important_tags[doc]["h2"]:
                     self.tf_idf[term][doc]+=1
