@@ -16,6 +16,9 @@ def search_and_show():
             break
         output[count] = result[count]
         count+=1
+    m.destroy()
+    m.pack_forget()
+    m.grid_forget()
     scrollbar = Scrollbar(m)
     scrollbar.pack(side = RIGHT, fill = Y)
     mylist = Listbox(m, yscrollcommand = scrollbar.set)
