@@ -1,5 +1,4 @@
 import tkinter
-from tkinter import *
 from index import Index
 from pymongo import MongoClient
 from searcher import Searcher
@@ -12,14 +11,14 @@ def search_and_show():
     output = []
     for result in ranked_results:
         output.append(result[0])
-    scrollbar = Scrollbar(m)
-    scrollbar.pack(side = RIGHT, fill = Y)
-    mylist = Listbox(m, yscrollcommand = scrollbar.set)
+
+    mylist.delete(0,tkinter.END)
+    
     for line in output:
-        mylist.insert(END, str(line))
-    mylist.pack( side = TOP, fill = BOTH )
-    scrollbar.config(command = mylist.yview)
-    mainloop()
+        mylist.insert( tkinter.END, str(line))
+    mylist.pack( side = tkinter.TOP, fill = tkinter.BOTH, expand=tkinter.YES )
+    
+    tkinter.mainloop()
     
 
 if __name__ == "__main__":
@@ -31,9 +30,14 @@ if __name__ == "__main__":
     searcher = Searcher(database)
     
     m = tkinter.Tk()
-    Label(m, text='Enter a query:').pack(side=TOP, fill=BOTH)
-    query_box = Entry(m)
-    submit_button = Button(m, text="Search", command=search_and_show)
-    query_box.pack(side = TOP, fill = BOTH)
-    submit_button.pack(side = TOP, fill = BOTH)
+    m.title('Search the ICS Domain')
+    m.geometry("600x600")
+    tkinter.Label(m, text='Enter a query:').pack(side=tkinter.TOP, fill=tkinter.BOTH)
+    query_box = tkinter.Entry(m)
+    submit_button = tkinter.Button(m, text="Search", command=search_and_show)
+    query_box.pack(side = tkinter.TOP, fill = tkinter.BOTH)
+    submit_button.pack(side = tkinter.TOP, fill = tkinter.BOTH)
+
+    mylist = tkinter.Listbox(m)
+
     m.mainloop()
