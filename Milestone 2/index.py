@@ -60,7 +60,6 @@ class Index:
                         word_set.add(word)
 
                 important_tags[url]=parser.get_important_words()
-                f.close()
         
         for doc in tf:
             for term in tf[doc]:

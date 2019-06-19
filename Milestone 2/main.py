@@ -2,6 +2,11 @@ import tkinter
 from index import Index
 from pymongo import MongoClient
 from searcher import Searcher
+import webbrowser
+
+def internet(e):
+    weblink = mylist.get(tkinter.ACTIVE)
+    webbrowser.open(weblink)
 
 def search_and_show():
     query = query_box.get()
@@ -16,6 +21,7 @@ def search_and_show():
     
     for line in output:
         mylist.insert( tkinter.END, str(line))
+    mylist.bind( "<Double-Button-1>" , internet )
     mylist.pack( side = tkinter.TOP, fill = tkinter.BOTH, expand=tkinter.YES )
     
     tkinter.mainloop()
